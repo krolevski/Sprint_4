@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import ru.yandex.praktikum.Page_Object.MainPage;
+import ru.yandex.praktikum.pageObject.MainPage;
 
 import static org.hamcrest.CoreMatchers.containsString;
 @RunWith(Parameterized.class)
@@ -18,6 +18,7 @@ public class FaqTest {
     private final String textPanel;
     private final String expected;
     private String text;
+    private final String url = "https://qa-scooter.praktikum-services.ru/";
 
     public FaqTest(int index, String textPanel, String expected) {
         this.index = index;
@@ -39,12 +40,17 @@ public class FaqTest {
         };
     }
 
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
+
     @Test
     public void menuFAQTest() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+        driver.get(url);
 
         MainPage objMainPage = new MainPage(driver);
 
@@ -55,10 +61,5 @@ public class FaqTest {
         text = objMainPage.getTextQuestions(index);
 
         MatcherAssert.assertThat(text, containsString(expected));
-    }
-
-    @After
-    public void tearDown() {
-        driver.quit();
     }
 }

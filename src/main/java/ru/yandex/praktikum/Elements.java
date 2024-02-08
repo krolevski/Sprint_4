@@ -78,8 +78,4 @@ public class Elements {
     private By colorGreyCheckbox = By.id("grey");
     //Заполнение поля комментарий
     private By commentsField = By.xpath(".//input[@placeholder = 'Комментарий для курьера']");
-
-
-    //Окно подтверждения
-    private By orderYes = By.className("Order_ModalHeader_3GDaJ");
 }

@@ -1,8 +1,9 @@
-package ru.yandex.praktikum.Page_Object;
+package ru.yandex.praktikum.pageObject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage {
     private WebDriver driver;
@@ -25,10 +26,10 @@ public class MainPage {
 
     //Метод нажатия на кнопки заказать вверху и внизу главной страницы
     public void clickButtonOrder(String order) {
-        if(order == "Наверху") {
+        if(order.equals("Наверху")) {
             driver.findElement(buttonOrderTop).click();
         }
-        if(order == "Внизу") {
+        if(order.equals("Внизу")) {
             ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", driver.findElement(buttonOrderBot));
             driver.findElement(buttonOrderBot).click();
         }

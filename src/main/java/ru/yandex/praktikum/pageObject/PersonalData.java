@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.Page_Object;
+package ru.yandex.praktikum.pageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,6 +15,7 @@ public class PersonalData {
     private By metroStantionField = By.xpath(".//input[@placeholder = '* Станция метро']");
     private By telephoneNumberField = By.xpath(".//input[@placeholder = '* Телефон: на него позвонит курьер']");
     private By buttonNext = By.xpath(".//button[@class = 'Button_Button__ra12g Button_Middle__1CSJM']");
+
 
     //Метод закрытия панели кук
     public void setCloseCookiePanel() {
@@ -59,6 +60,10 @@ public class PersonalData {
     //Метод нажатия кнопки Далее
     public  void setButtonNext() {
         driver.findElement(buttonNext).click();
+    }
+    //Метод получения текста заголовка страницы
+    public String getOrderHeaderText() {
+        return driver.findElement(pageTitleUsernameDetails).getText();
     }
 }
 

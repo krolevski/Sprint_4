@@ -1,4 +1,4 @@
-package ru.yandex.praktikum.Page_Object;
+package ru.yandex.praktikum.pageObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +16,7 @@ public class AboutRent {
     private By commentsField = By.xpath(".//input[@placeholder = 'Комментарий для курьера']");
     private By order = By.xpath(".//div[@class = 'Order_Buttons__1xGrp']/button[@class = 'Button_Button__ra12g Button_Middle__1CSJM']");
     private By orderYes = By.xpath(".//div[@class = 'Order_Modal__YZ-d3']/div[@class = 'Order_Buttons__1xGrp']/button[@class = 'Button_Button__ra12g Button_Middle__1CSJM']");
+    private By windowOrder = By.xpath(".//div[@class = 'Order_ModalHeader__3FDaJ']");
 
     public AboutRent(WebDriver driver) {
         this.driver = driver;
@@ -41,11 +42,11 @@ public class AboutRent {
     }
     //Метод выбора цвета
     public void setColorCheckbox(String color){
-        if(color == "black") {
+        if("black".equals("black")) {
             driver.findElement(colorBlackCheckbox).click();
-        } if(color == "grey") {
+        } if("grey".equals("grey")) {
             driver.findElement(colorGreyCheckbox).click();
-        } if(color == "full") {
+        } if("full".equals("full")) {
             driver.findElement(colorBlackCheckbox).click();
             driver.findElement(colorGreyCheckbox).click();
         }
@@ -59,5 +60,9 @@ public class AboutRent {
     public void setOrder() {
         driver.findElement(order).click();
         driver.findElement(orderYes).click();
+    }
+    //Метод получения текста из окна, что заказ оформлен
+    public String getTextWindowOrder() {
+        return driver.findElement(windowOrder).getText();
     }
 }
