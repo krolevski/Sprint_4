@@ -66,4 +66,3 @@ public class PersonalData {
         return driver.findElement(pageTitleUsernameDetails).getText();
     }
 }
-

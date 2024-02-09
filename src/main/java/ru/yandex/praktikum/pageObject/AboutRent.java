@@ -42,11 +42,11 @@ public class AboutRent {
     }
     //Метод выбора цвета
     public void setColorCheckbox(String color){
-        if("black".equals("black")) {
+        if(color.equals("black")) {
             driver.findElement(colorBlackCheckbox).click();
-        } if("grey".equals("grey")) {
+        } if(color.equals("grey")) {
             driver.findElement(colorGreyCheckbox).click();
-        } if("full".equals("full")) {
+        } else {
             driver.findElement(colorBlackCheckbox).click();
             driver.findElement(colorGreyCheckbox).click();
         }

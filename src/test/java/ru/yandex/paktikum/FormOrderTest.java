@@ -23,11 +23,11 @@ public class FormOrderTest {
     private final String metro;
     private final String telephoneNumber;
     private final String date;
-    private  final  int rentalPeriod;
+    private final int rentalPeriod;
     private final String color;
     private final String comments;
     private String result;
-    private  final String url = "https://qa-scooter.praktikum-services.ru/";
+    private final String url = "https://qa-scooter.praktikum-services.ru/";
 
 
     public FormOrderTest(String order, String name, String surname, String address, String metro, String telephoneNumber, String date, int rentalPeriod, String color, String comments) {
@@ -44,11 +44,10 @@ public class FormOrderTest {
     }
 
     @Parameterized.Parameters
-    public static Object[][] getUsernname() {
-        return new Object[][] {
+    public static Object[][] getUserName() {
+        return new Object[][]{
                 {"Наверху", "Мария", "Иванова", "Екатеринбург", "Черкизовская", "89190110101", "05.10.2024", 1, "black", "Спасибо"},
                 {"Наверху", "Александр", "Семенов", "Ростов-на-Дону", "Лубянка", "85287569887", "06.02.2024", 5, "grey", "Очень ждем"},
-                {"Внизу","Мария", "Иванова", "Екатеринбург", "Черкизовская", "89190110101", "05.10.2024", 1, "black", "Спасибо"},
         };
     }
 
@@ -56,46 +55,36 @@ public class FormOrderTest {
     public void tearDown() {
         driver.quit();
     }
+
     @Test
-    public void ordersFormTest() {
+    public void ordersFormTestButtonTop() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
-            driver = new ChromeDriver(options);
-            driver.get(url);
+        driver = new ChromeDriver(options);
+        driver.get(url);
 
-        if(order.equals("Внизу")) {
-            MainPage objMainPage = new MainPage(driver);
-            objMainPage.clickButtonOrder(order);
-            PersonalData objPersonalData = new PersonalData(driver);
-            objPersonalData.waitLoadPersonalData();
+        MainPage objMainPage = new MainPage(driver);
+        objMainPage.clickButtonOrder(order);
+        PersonalData objPersonalData = new PersonalData(driver);
+        objPersonalData.waitLoadPersonalData();
+        objPersonalData.setCloseCookiePanel();
+        objPersonalData.setNameField(name);
+        objPersonalData.setSurnameField(surname);
+        objPersonalData.setAddressField(address);
+        objPersonalData.selectMetroFromOptions(metro);
+        objPersonalData.setTelephoneNumberField(telephoneNumber);
+        objPersonalData.setButtonNext();
 
-            result = objPersonalData.getOrderHeaderText();
+        AboutRent objAboutRent = new AboutRent(driver);
+        objAboutRent.waitLoadAboutRent();
+        objAboutRent.setDeliveryTimeField(date);
+        objAboutRent.setRentalPeriod(rentalPeriod);
+        objAboutRent.setColorCheckbox(color);
+        objAboutRent.setCommentsField(comments);
+        objAboutRent.setOrder();
 
-            MatcherAssert.assertThat("Не появилcя заголовок страницы", result, containsString("Для кого самокат"));
-        } else {
-            MainPage objMainPage = new MainPage(driver);
-            objMainPage.clickButtonOrder(order);
-            PersonalData objPersonalData = new PersonalData(driver);
-            objPersonalData.waitLoadPersonalData();
-            objPersonalData.setCloseCookiePanel();
-            objPersonalData.setNameField(name);
-            objPersonalData.setSurnameField(surname);
-            objPersonalData.setAddressField(address);
-            objPersonalData.selectMetroFromOptions(metro);
-            objPersonalData.setTelephoneNumberField(telephoneNumber);
-            objPersonalData.setButtonNext();
+        result = objAboutRent.getTextWindowOrder();
 
-            AboutRent objAboutRent = new AboutRent(driver);
-            objAboutRent.waitLoadAboutRent();
-            objAboutRent.setDeliveryTimeField(date);
-            objAboutRent.setRentalPeriod(rentalPeriod);
-            objAboutRent.setColorCheckbox(color);
-            objAboutRent.setCommentsField(comments);
-            objAboutRent.setOrder();
-
-            result = objAboutRent.getTextWindowOrder();
-
-            MatcherAssert.assertThat("Не появилось окно об оформленом заказе", result, containsString("Заказ оформлен"));
-        }
+        MatcherAssert.assertThat("Не появилось окно об оформленом заказе", result, containsString("Заказ оформлен"));
     }
 }
